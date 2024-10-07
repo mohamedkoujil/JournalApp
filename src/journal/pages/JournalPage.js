@@ -8,9 +8,9 @@ export const JournalPage = () => {
   return (
     <JournalLayout>
       {/* <Typography variant="h1">asdad</Typography> */}
-      {/* <NothingSelectedView /> */}
+      <NothingSelectedView />
       {/* note page */}
-      <NoteView />
+      {/* <NoteView /> */}
 
       <IconButton
         size="large"

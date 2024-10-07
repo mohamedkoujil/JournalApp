@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { Grid } from "@mui/system";
+import { Grid } from "@mui/material"; // Ensure you're importing from the correct module
 
 export const AuthLayout = ({ children, title = "" }) => {
   return (
@@ -20,7 +20,6 @@ export const AuthLayout = ({ children, title = "" }) => {
           borderRadius: 2,
           p: 3,
         }}
-        size={{ xs: 10, sm: 6, md: 3 }}
       >
         <Typography variant="h5" sx={{ mb: 1 }}>
           {title}
