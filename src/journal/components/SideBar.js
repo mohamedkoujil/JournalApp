@@ -1,5 +1,6 @@
 import { TurnedInNot } from "@mui/icons-material";
 import {
+  Avatar,
   Drawer,
   List,
   ListItem,
@@ -8,10 +9,15 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  Grid2,
 } from "@mui/material";
-import { Box, Grid } from "@mui/system";
+import { Box } from "@mui/system";
+import { useSelector } from "react-redux";
 
 export const SideBar = ({ drawerWidth = 240 }) => {
+  const user = useSelector((state) => state.auth);
+  console.log(user);
+
   return (
     <Box
       component="nav"
@@ -25,11 +31,24 @@ export const SideBar = ({ drawerWidth = 240 }) => {
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
         }}
       >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            MohamedKoujil
-          </Typography>
-        </Toolbar>
+        <Grid2
+          display="flex"
+          alignItems="center"
+          sx={{
+            padding: 1,
+          }}
+        >
+          <Grid2 item="true" marginRight={3}>
+            <Avatar src={user.photoURL} />
+          </Grid2>
+          <Grid2 item="true">
+            <Typography variant="h6" noWrap component="div">
+              {user.displayName}
+            </Typography>
+          </Grid2>
+
+          {/* pfp */}
+        </Grid2>
         <List>
           {["January", "February", "March", "April"].map((text, index) => (
             <ListItem key={text} disablePadding>
@@ -37,10 +56,10 @@ export const SideBar = ({ drawerWidth = 240 }) => {
                 <ListItemIcon>
                   <TurnedInNot />
                 </ListItemIcon>
-                <Grid container>
+                <Grid2 container>
                   <ListItemText primary={text} />
                   <ListItemText secondary="Secondary text Secondary" />
-                </Grid>
+                </Grid2>
               </ListItemButton>
             </ListItem>
           ))}

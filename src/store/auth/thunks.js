@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { authSlice, checkingCredentials, login, logout } from "./authSlice";
 import {
   loginWithEmailPassword,
+  logoutFirebase,
   registerUserWithPassword,
   signInWithGoogle,
 } from "../../firebase/providers";
@@ -17,7 +18,7 @@ export const startGoolgeSignIn = () => {
     dispatch(checkingCredentials());
     const result = await signInWithGoogle();
     if (!result.ok) {
-      dispatch(logout(result.errorMessage));
+      return dispatch(logout(result.errorMessage));
     }
     dispatch(login(result));
   };
@@ -53,5 +54,13 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
     if (!ok) return dispatch(logout({ errorMessage }));
 
     dispatch(login({ uid, email, displayName, photoURL }));
+  };
+};
+
+export const startLogout = () => {
+  return async (dispatch) => {
+    await logoutFirebase();
+
+    dispatch(logout());
   };
 };
