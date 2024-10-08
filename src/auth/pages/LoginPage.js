@@ -1,6 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
 import { Google } from "@mui/icons-material";
-import { Button, TextField, Typography } from "@mui/material";
+import { Alert, Button, TextField, Typography } from "@mui/material";
 import { Grid } from "@mui/system";
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -9,11 +9,12 @@ import { useForm } from "../../hooks";
 import {
   chekingAuthentication,
   startGoolgeSignIn,
+  startLoginWithEmailPassword,
 } from "../../store/auth/thunks";
 import { useDispatch, useSelector } from "react-redux";
 
 export const LoginPage = () => {
-  const { status } = useSelector((state) => state.auth);
+  const { status, errorMessage } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const { email, password, onInputChange } = useForm({
@@ -25,8 +26,7 @@ export const LoginPage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log({ email, password });
-    dispatch(chekingAuthentication(email, password));
+    dispatch(startLoginWithEmailPassword({ email, password }));
   };
 
   const onGoogleSignIn = () => {
@@ -43,7 +43,7 @@ export const LoginPage = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item size={12}>
+          <Grid item="true" size={12}>
             <TextField
               fullWidth
               label="Email"
@@ -55,7 +55,7 @@ export const LoginPage = () => {
             />
           </Grid>
 
-          <Grid item size={12}>
+          <Grid item="true" size={12}>
             <TextField
               fullWidth
               label="Password"
@@ -68,7 +68,15 @@ export const LoginPage = () => {
           </Grid>
 
           <Grid container spacing={2} size={12}>
-            <Grid item size={{ xs: 12, md: 6 }}>
+            <Grid
+              item="true"
+              size={{ xs: 12, md: 6 }}
+              display={errorMessage ? "block" : "none"}
+            >
+              <Alert severity="error">{errorMessage}</Alert>
+            </Grid>
+
+            <Grid item="true" size={{ xs: 12, md: 6 }}>
               <Button
                 disabled={isAthenticating}
                 variant="contained"
@@ -79,7 +87,7 @@ export const LoginPage = () => {
                 Login
               </Button>
             </Grid>
-            <Grid item size={{ xs: 12, md: 6 }}>
+            <Grid item="true" size={{ xs: 12, md: 6 }}>
               <Button
                 disabled={isAthenticating}
                 variant="contained"

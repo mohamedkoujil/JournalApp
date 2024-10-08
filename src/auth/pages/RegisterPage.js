@@ -1,10 +1,12 @@
 import { Link as RouterLink } from "react-router-dom";
-import { Button, TextField, Typography } from "@mui/material";
+import { Alert, Button, TextField, Typography } from "@mui/material";
 import { display, Grid } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
+import { useDispatch, useSelector } from "react-redux";
+import { startCreatingUserWithEmailAndPassord } from "../../store/auth/thunks";
 
 const formData = {
   email: "",
@@ -25,6 +27,12 @@ const formValidations = {
 };
 
 export const RegisterPage = () => {
+  const { status, errorMessage } = useSelector((state) => state.auth);
+
+  const isCheckingAuth = useMemo(() => status === "checking", [status]);
+
+  const dispatch = useDispatch();
+
   const {
     displayName,
     email,
@@ -45,7 +53,7 @@ export const RegisterPage = () => {
       setFormSubmitted(true);
       return;
     }
-    console.log("form is valid");
+    dispatch(startCreatingUserWithEmailAndPassord(formState));
   };
 
   return (
@@ -58,7 +66,7 @@ export const RegisterPage = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Grid item size={12}>
+          <Grid item="true" size={12}>
             <TextField
               fullWidth
               label="Full Name"
@@ -72,7 +80,7 @@ export const RegisterPage = () => {
             />
           </Grid>
 
-          <Grid item size={12}>
+          <Grid item="true" size={12}>
             <TextField
               fullWidth
               label="Email"
@@ -86,7 +94,7 @@ export const RegisterPage = () => {
             />
           </Grid>
 
-          <Grid item size={12}>
+          <Grid item="true" size={12}>
             <TextField
               type="password"
               fullWidth
@@ -102,13 +110,21 @@ export const RegisterPage = () => {
           </Grid>
 
           <Grid container spacing={2} size={12}>
-            <Grid item size={{ xs: 12 }}>
+            <Grid
+              item="true"
+              size={{ xs: 12 }}
+              display={!!errorMessage ? "" : "none"}
+            >
+              <Alert severity="error">{errorMessage}</Alert>
+            </Grid>
+            <Grid item="true" size={{ xs: 12 }}>
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
                 //type="submit"
                 fullWidth
+                disabled={isCheckingAuth}
               >
                 Create account
               </Button>
