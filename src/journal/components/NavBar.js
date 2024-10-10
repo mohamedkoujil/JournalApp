@@ -19,6 +19,7 @@ export const NavBar = ({ drawerWidth }) => {
         width: { sm: `calc(100% - ${drawerWidth}px)` },
         ml: { sm: `${drawerWidth}px` },
       }}
+      className="animate__animated animate__slideInDown"
     >
       <Toolbar>
         <IconButton

@@ -13,14 +13,16 @@ import {
 } from "../../store/auth/thunks";
 import { useDispatch, useSelector } from "react-redux";
 
+const formData = {
+  email: "",
+  password: "",
+};
+
 export const LoginPage = () => {
   const { status, errorMessage } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
-  const { email, password, onInputChange } = useForm({
-    email: "",
-    password: "",
-  });
+  const { email, password, onInputChange } = useForm(formData);
 
   const isAthenticating = useMemo(() => status === "checking", [status]);
 
@@ -35,7 +37,10 @@ export const LoginPage = () => {
 
   return (
     <AuthLayout title="Login">
-      <form onSubmit={onSubmit}>
+      <form
+        onSubmit={onSubmit}
+        className="animate__animated animate__fadeIn animate__faster"
+      >
         <Grid
           container
           spacing={2}
@@ -58,6 +63,7 @@ export const LoginPage = () => {
           <Grid item="true" size={12}>
             <TextField
               fullWidth
+              type="password"
               label="Password"
               name="password"
               value={password}
@@ -68,11 +74,7 @@ export const LoginPage = () => {
           </Grid>
 
           <Grid container spacing={2} size={12}>
-            <Grid
-              item="true"
-              size={{ xs: 12, md: 6 }}
-              display={errorMessage ? "block" : "none"}
-            >
+            <Grid item="true" display={errorMessage ? "flex" : "none"}>
               <Alert severity="error">{errorMessage}</Alert>
             </Grid>
 
