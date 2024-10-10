@@ -25,7 +25,10 @@ export const journalSlice = createSlice({
       state.isSaving = false;
     },
     setActiveNote: (state, action) => {
-      state.active = action.payload;
+      state.active = {
+        ...action.payload,
+        imageUrls: action.payload.imageUrls || [], // Ensure imageUrls is an array
+      };
       state.messageSaved = "";
     },
     setNotes: (state, action) => {
@@ -46,6 +49,11 @@ export const journalSlice = createSlice({
       state.messageSaved = `${action.payload.title} se ha actualizado correctamente`;
       state.isSaving = false;
     },
+    setPhotosToActiveNote: (state, action) => {
+      console.log(action.payload);
+      state.active.imageUrls = [...state.active.imageUrls, ...action.payload];
+      state.isSaving = false;
+    },
     deleteNoteById: (state, action) => {},
   },
 });
@@ -58,5 +66,6 @@ export const {
   setNotes,
   setSaving,
   updateNote,
+  setPhotosToActiveNote,
   deleteNoteById,
 } = journalSlice.actions;

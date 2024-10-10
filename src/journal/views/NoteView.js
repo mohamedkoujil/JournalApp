@@ -1,12 +1,22 @@
-import { SaveOutlined } from "@mui/icons-material";
-import { Button, Grid, Grid2, TextField, Typography } from "@mui/material";
+import { SaveOutlined, UploadOutlined } from "@mui/icons-material";
+import {
+  Button,
+  Grid,
+  Grid2,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { border } from "@mui/system";
 import { ImageGallery } from "../components";
 import { useForm } from "../../hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { setActiveNote } from "../../store/journal/journalSlice";
-import { startSavingNote } from "../../store/journal/thunks";
+import {
+  startSavingNote,
+  startUploadingFiles,
+} from "../../store/journal/thunks";
 import Swal from "sweetalert2";
 
 export const NoteView = () => {
@@ -23,6 +33,8 @@ export const NoteView = () => {
     return new Date(date).toUTCString();
   });
 
+  const fileInputRef = useRef();
+
   useEffect(() => {
     dispatch(setActiveNote(formState));
   }, [formState]);
@@ -34,6 +46,12 @@ export const NoteView = () => {
 
   const onSaveNote = () => {
     dispatch(startSavingNote());
+  };
+
+  const onFileInputChange = ({ target }) => {
+    if (target.files === 0) return;
+
+    dispatch(startUploadingFiles(target.files));
   };
 
   return (
@@ -51,6 +69,20 @@ export const NoteView = () => {
       </Grid2>
 
       <Grid2 item="true">
+        <input
+          type="file"
+          multiple
+          onChange={onFileInputChange}
+          style={{ display: "none" }}
+          ref={fileInputRef}
+        />
+        <IconButton
+          color="primary"
+          disabled={isSaving}
+          onClick={() => fileInputRef.current.click()}
+        >
+          <UploadOutlined />
+        </IconButton>
         <Button
           color="primary"
           sx={{ padding: 1 }}
@@ -89,7 +121,7 @@ export const NoteView = () => {
         />
       </Grid2>
 
-      <ImageGallery />
+      <ImageGallery images={note.imageUrls} />
     </Grid2>
   );
 };
