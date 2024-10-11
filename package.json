@@ -1,7 +1,7 @@
 {
   "name": "journal-app",
   "engines": {
-    "node": "14.x"
+    "node": "20.x"
   },
   "version": "0.1.0",
   "private": true,
