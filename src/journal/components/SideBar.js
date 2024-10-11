@@ -15,13 +15,24 @@ import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
 import { SideBarItem } from "./SideBarItem";
 
-export const SideBar = ({ drawerWidth = 240, open, toggleOpen }) => {
+export const SideBar = ({
+  drawerWidth = 240,
+  open,
+  toggleOpen,
+  navbarHeight,
+}) => {
   const user = useSelector((state) => state.auth);
   const { notes } = useSelector((state) => state.journal);
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, zIndex: 1 }}
+      //width borders roundeed
+      sx={{
+        width: { sm: drawerWidth },
+        flexShrink: { sm: 0 },
+        zIndex: 1,
+        marginTop: { xs: 8.5, sm: 0 },
+      }}
       className="animate__animated animate__slideInLeft animate__faster"
       display={
         open
@@ -46,11 +57,12 @@ export const SideBar = ({ drawerWidth = 240, open, toggleOpen }) => {
           sx={{
             padding: 1.5,
             zIndex: 1,
-            backgroundColor: "rgba(38, 34, 84, 0.23)",
+            //backgroundColor: "rgba(38, 34, 84, 0.23)",
+            borderBottom: "1px solid #e0e0e0",
           }}
+          //at the top wheen scroll down
           position="sticky"
           top={0}
-          //main background color
         >
           <Grid2 item="true" marginRight={3}>
             <Avatar src={user.photoURL} />

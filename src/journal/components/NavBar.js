@@ -5,7 +5,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { startLogout } from "../../store/auth/thunks";
 
-export const NavBar = ({ drawerWidth, open, toggleOpen }) => {
+export const NavBar = ({ drawerWidth, open, toggleOpen, navbarHeight }) => {
   const dispatch = useDispatch();
 
   const onLogOut = () => {
@@ -15,6 +15,7 @@ export const NavBar = ({ drawerWidth, open, toggleOpen }) => {
   return (
     <AppBar
       position="fixed"
+      //starts below the navbar
       sx={{
         width: { sm: `calc(100% - ${drawerWidth}px)` },
         ml: { sm: `${drawerWidth}px` },
