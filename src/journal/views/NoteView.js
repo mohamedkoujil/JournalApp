@@ -132,6 +132,7 @@ export const NoteView = () => {
           name="title"
           value={title}
           onChange={onInputChange}
+          required
         />
         <TextField
           type="text"

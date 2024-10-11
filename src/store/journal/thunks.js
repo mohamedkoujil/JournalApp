@@ -13,8 +13,6 @@ import { fileUpload, loadNotes } from "../../helpers";
 
 export const startNewNote = () => {
   return async (dispatch, getState) => {
-    console.log("new note");
-
     const { uid } = getState().auth;
 
     const newNote = {
@@ -52,6 +50,8 @@ export const startSavingNote = () => {
 
     const noteToFirestore = { ...note };
     delete noteToFirestore.id;
+
+    console.log(noteToFirestore.title);
 
     const noteRef = doc(FirebaseDB, `${uid}/journal/notes/${note.id}`);
     await setDoc(noteRef, noteToFirestore, { merge: true });

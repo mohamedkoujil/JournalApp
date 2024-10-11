@@ -62,9 +62,15 @@ export const SideBar = ({ drawerWidth = 240, open, toggleOpen }) => {
           </Grid2>
         </Grid2>
         <List>
-          {notes.map((note) => (
-            <SideBarItem key={note.id} {...note} toggleOpen={toggleOpen} />
-          ))}
+          {notes.length != 0 ? (
+            notes.map((note) => (
+              <SideBarItem key={note.id} {...note} toggleOpen={toggleOpen} />
+            ))
+          ) : (
+            <ListItem>
+              <ListItemText primary="No hay notas" />
+            </ListItem>
+          )}
         </List>
       </Drawer>
     </Box>

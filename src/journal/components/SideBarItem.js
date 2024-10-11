@@ -34,7 +34,7 @@ export const SideBarItem = ({
   });
 
   return (
-    <ListItem disablePadding>
+    <ListItem disablePadding sx={{ borderBottom: "1px solid #e0e0e0" }}>
       <ListItemButton onClick={onClick}>
         <ListItemIcon>
           <TurnedInNot />
