@@ -15,15 +15,22 @@ import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
 import { SideBarItem } from "./SideBarItem";
 
-export const SideBar = ({ drawerWidth = 240, open }) => {
+export const SideBar = ({ drawerWidth = 240, open, toggleOpen }) => {
   const user = useSelector((state) => state.auth);
   const { notes } = useSelector((state) => state.journal);
-
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 }, zIndex: 1 }}
       className="animate__animated animate__slideInLeft animate__faster"
+      display={
+        open
+          ? "block"
+          : {
+              xs: "none",
+              sm: "block",
+            }
+      }
     >
       <Drawer
         variant="permanent"
@@ -32,21 +39,18 @@ export const SideBar = ({ drawerWidth = 240, open }) => {
           //display: { xs: "none", sm: "block" },
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
         }}
-        display={
-          open
-            ? "block"
-            : {
-                xs: "none",
-                sm: "block",
-              }
-        }
       >
         <Grid2
           display="flex"
           alignItems="center"
           sx={{
-            padding: 1,
+            padding: 1.5,
+            zIndex: 1,
+            backgroundColor: "rgba(38, 34, 84, 0.23)",
           }}
+          position="sticky"
+          top={0}
+          //main background color
         >
           <Grid2 item="true" marginRight={3}>
             <Avatar src={user.photoURL} />
@@ -56,12 +60,10 @@ export const SideBar = ({ drawerWidth = 240, open }) => {
               {user.displayName}
             </Typography>
           </Grid2>
-
-          {/* pfp */}
         </Grid2>
         <List>
           {notes.map((note) => (
-            <SideBarItem key={note.id} {...note} />
+            <SideBarItem key={note.id} {...note} toggleOpen={toggleOpen} />
           ))}
         </List>
       </Drawer>

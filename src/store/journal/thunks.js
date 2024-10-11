@@ -1,7 +1,8 @@
-import { collection, doc, setDoc } from "firebase/firestore/lite";
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import {
   addNewEmptyNote,
+  deleteNoteById,
   setActiveNote,
   setNotes,
   setPhotosToActiveNote,
@@ -75,5 +76,20 @@ export const startUploadingFiles = (files = []) => {
 };
 
 export const startDeletingNote = () => {
-  return async (dispatch, getState) => {};
+  return async (dispatch, getState) => {
+    dispatch(setSaving());
+    const { uid } = getState().auth;
+    const { active: note } = getState().journal;
+
+    try {
+      const docRef = doc(FirebaseDB, `${uid}/journal/notes/${note.id}`);
+
+      await deleteDoc(docRef);
+
+      dispatch(deleteNoteById(note.id));
+    } catch (error) {
+      console.error(error);
+      throw new Error("No se pudo eliminar la nota");
+    }
+  };
 };

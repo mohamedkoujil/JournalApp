@@ -5,15 +5,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { startLogout } from "../../store/auth/thunks";
 
-export const NavBar = ({ drawerWidth, setOpen }) => {
+export const NavBar = ({ drawerWidth, open, toggleOpen }) => {
   const dispatch = useDispatch();
 
   const onLogOut = () => {
     dispatch(startLogout());
-  };
-
-  const onOpenDrawer = () => {
-    setOpen((prev) => !prev);
   };
 
   return (
@@ -30,7 +26,7 @@ export const NavBar = ({ drawerWidth, setOpen }) => {
           color="inherit"
           edge="start"
           sx={{ mr: 2, display: { sm: "none" } }}
-          onClick={onOpenDrawer}
+          onClick={toggleOpen}
         >
           <MenuOutlined />
         </IconButton>

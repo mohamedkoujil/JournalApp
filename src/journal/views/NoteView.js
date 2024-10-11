@@ -40,7 +40,7 @@ export const NoteView = () => {
 
   const fileInputRef = useRef();
   const [prevFormState, setPrevFormState] = useState(formState);
-  console.log("asd");
+
   useEffect(() => {
     if (JSON.stringify(formState) !== JSON.stringify(prevFormState)) {
       dispatch(setActiveNote(formState));
@@ -63,9 +63,22 @@ export const NoteView = () => {
 
     dispatch(startUploadingFiles(target.files));
   };
+  console.log(note);
 
-  const onDelete = () => {
-    dispatch(startDeletingNote());
+  const onDelete = async () => {
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "No podrás revertir esta acción",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, borrar",
+    });
+
+    if (result.isConfirmed) {
+      dispatch(startDeletingNote());
+    }
   };
 
   return (

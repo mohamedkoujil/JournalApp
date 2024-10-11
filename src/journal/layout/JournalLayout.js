@@ -6,12 +6,16 @@ import { Toolbar } from "@mui/material";
 const drawerWidth = 240;
 
 const JournalLayout = ({ children }) => {
-  // const [open, setOpen] = useState(initialState);
+  const [open, setOpen] = useState(false);
+
+  const toggleOpen = () => {
+    setOpen(!open);
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
-      <NavBar drawerWidth={drawerWidth} />
-      <SideBar drawerWidth={drawerWidth} />
+      <SideBar drawerWidth={drawerWidth} open={open} toggleOpen={toggleOpen} />
+      <NavBar drawerWidth={drawerWidth} open={open} toggleOpen={toggleOpen} />
 
       <Box component="main" sx={{ flexGrow: 1, p: 1.5 }}>
         <Toolbar />
