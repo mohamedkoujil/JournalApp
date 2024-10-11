@@ -73,3 +73,7 @@ export const startUploadingFiles = (files = []) => {
     dispatch(setPhotosToActiveNote(imageUrls));
   };
 };
+
+export const startDeletingNote = () => {
+  return async (dispatch, getState) => {};
+};

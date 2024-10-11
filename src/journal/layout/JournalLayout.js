@@ -1,11 +1,13 @@
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
 import { NavBar, SideBar } from "../components";
 import { Toolbar } from "@mui/material";
 
 const drawerWidth = 240;
 
 const JournalLayout = ({ children }) => {
+  // const [open, setOpen] = useState(initialState);
+
   return (
     <Box sx={{ display: "flex" }}>
       <NavBar drawerWidth={drawerWidth} />

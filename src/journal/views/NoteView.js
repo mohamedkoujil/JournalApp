@@ -1,4 +1,8 @@
-import { SaveOutlined, UploadOutlined } from "@mui/icons-material";
+import {
+  DeleteOutline,
+  SaveOutlined,
+  UploadOutlined,
+} from "@mui/icons-material";
 import {
   Button,
   Grid,
@@ -11,9 +15,10 @@ import { border } from "@mui/system";
 import { ImageGallery } from "../components";
 import { useForm } from "../../hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { setActiveNote } from "../../store/journal/journalSlice";
 import {
+  startDeletingNote,
   startSavingNote,
   startUploadingFiles,
 } from "../../store/journal/thunks";
@@ -31,17 +36,22 @@ export const NoteView = () => {
 
   const dateString = useMemo(() => {
     return new Date(date).toUTCString();
-  });
+  }, [date]);
 
   const fileInputRef = useRef();
+  const [prevFormState, setPrevFormState] = useState(formState);
+  console.log("asd");
+  useEffect(() => {
+    if (JSON.stringify(formState) !== JSON.stringify(prevFormState)) {
+      dispatch(setActiveNote(formState));
+      setPrevFormState(formState);
+    }
+  }, [formState, prevFormState, dispatch]);
 
   useEffect(() => {
-    dispatch(setActiveNote(formState));
-  }, [formState]);
-
-  useEffect(() => {
-    messageSaved.length > 0 &&
+    if (messageSaved.length > 0) {
       Swal.fire("Nota actualizada", messageSaved, "success");
+    }
   }, [messageSaved]);
 
   const onSaveNote = () => {
@@ -49,9 +59,13 @@ export const NoteView = () => {
   };
 
   const onFileInputChange = ({ target }) => {
-    if (target.files === 0) return;
+    if (target.files.length === 0) return;
 
     dispatch(startUploadingFiles(target.files));
+  };
+
+  const onDelete = () => {
+    dispatch(startDeletingNote());
   };
 
   return (
@@ -119,6 +133,19 @@ export const NoteView = () => {
           value={body}
           onChange={onInputChange}
         />
+      </Grid2>
+
+      <Grid2
+        container
+        size={12}
+        display="flex"
+        justifyContent="flex-end"
+        sx={{ mb: 1 }}
+      >
+        <Button onClick={onDelete} color="error" disabled={isSaving}>
+          <DeleteOutline />
+          Borrar
+        </Button>
       </Grid2>
 
       <ImageGallery images={note.imageUrls} />

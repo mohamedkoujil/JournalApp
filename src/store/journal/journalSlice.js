@@ -27,7 +27,7 @@ export const journalSlice = createSlice({
     setActiveNote: (state, action) => {
       state.active = {
         ...action.payload,
-        imageUrls: action.payload.imageUrls || [], // Ensure imageUrls is an array
+        imageUrls: action.payload.imageUrls || [],
       };
       state.messageSaved = "";
     },

@@ -15,7 +15,7 @@ import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
 import { SideBarItem } from "./SideBarItem";
 
-export const SideBar = ({ drawerWidth = 240 }) => {
+export const SideBar = ({ drawerWidth = 240, open }) => {
   const user = useSelector((state) => state.auth);
   const { notes } = useSelector((state) => state.journal);
 
@@ -29,9 +29,17 @@ export const SideBar = ({ drawerWidth = 240 }) => {
         variant="permanent"
         open
         sx={{
-          display: { xs: "none", sm: "block" },
+          //display: { xs: "none", sm: "block" },
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
         }}
+        display={
+          open
+            ? "block"
+            : {
+                xs: "none",
+                sm: "block",
+              }
+        }
       >
         <Grid2
           display="flex"
